@@ -3,14 +3,15 @@
 # @Author: Administrator
 # @File: CFluent_window.py
 from typing import Union
-
+from abc import abstractmethod
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QApplication
 
 from qfluentwidgets import (NavigationInterface, NavigationItemPosition, NavigationTreeWidget, FluentIconBase, qrouter)
 from qfluentwidgets.window.fluent_window import FluentWindowBase, FluentTitleBar
 
 __all__ = ['CFluentWindow']
+
 
 class CFluentWindow(FluentWindowBase):
     """ CFluent window """
@@ -31,6 +32,26 @@ class CFluentWindow(FluentWindowBase):
 
         self.navigationInterface.displayModeChanged.connect(self.titleBar.raise_)
         self.titleBar.raise_()
+
+    @abstractmethod
+    def initWindow(self):
+        desktop = QApplication.desktop().availableGeometry()
+        w, h = desktop.width(), desktop.height()
+        self.move(w // 2 - self.width() // 2, h // 2 - self.height() // 2)
+
+    @abstractmethod
+    def connectSignalToSlot(self):
+        """
+        信号
+        :return:
+        """
+
+    @abstractmethod
+    def initNavigation(self):
+        """
+        导航栏
+        :return:
+        """
 
     def addSubInterface(self, interface: QWidget, icon: Union[FluentIconBase, QIcon, str], text: str,
                         position=NavigationItemPosition.TOP, parent=None, isTransparent=False) -> NavigationTreeWidget:
@@ -89,4 +110,4 @@ class CFluentWindow(FluentWindowBase):
 
     def resizeEvent(self, e):
         self.titleBar.move(10, 0)
-        self.titleBar.resize(self.width()-10, self.titleBar.height())
+        self.titleBar.resize(self.width() - 10, self.titleBar.height())

@@ -6,6 +6,10 @@ qfluent封装自用,便于调用
 ### 1. CFluentWindow
 去掉FluentWindow的返回按钮
 
+## widget
+### 1. CSegmentedWidget
+QWidget添加SegmentedWidget
+
 ## common
 ### 1.  CQConfig.py
 CustomConfig
